@@ -1,0 +1,136 @@
+project:
+  id: pseudolab-13th
+  name: Manufacturing AX Fieldbook
+  description: 가짜연구소 13기. 열간단조 공정의 에너지 효율 문제를 KAMP 데이터로 분석해 AX 도입 사례(전처리, 절감 요인 분석, 솔루션 제안, 절감 예측)를 만든다.
+agents:
+  - id: domain-researcher
+    role: 열간단조 에너지 소비 구조와 손실 요인 조사, KAMP 후보 데이터셋 정리
+  - id: ax-strategist
+    role: AX 유스케이스 후보, 우선순위, KPI, 데이터 요구사항 설계
+  - id: data-engineer
+    role: 원본을 재현 가능한 파이프라인으로 정제
+  - id: energy-analyst
+    role: 에너지 절감 요인 분석과 솔루션 후보 제안
+  - id: ml-modeler
+    role: 에너지 소비 예측 모델 개발과 평가
+  - id: savings-simulator
+    role: 솔루션 적용 시 kWh, 비용, CO2 절감 예측과 민감도 분석
+  - id: pm-tracker
+    role: 이벤트와 산출물 기반 상태 갱신, 주간 보고
+  - id: reviewer
+    role: 단계 종료 시 독립 검증, 결론마다 반대 증거 확인
+  - id: fieldbook-writer
+    role: 승인된 단계의 필드북 챕터 초안 작성
+phases:
+  - id: p1-research
+    name: 조사
+    status: todo
+    agents:
+      - domain-researcher
+    deliverables:
+      - docs/research/energy-structure.md
+      - docs/research/kamp-candidates.md
+    gate: dataset-selection
+    tasks:
+      - id: p1-t1
+        title: 열간단조 에너지 소비 구조와 손실 요인 조사
+        status: todo
+        agent: domain-researcher
+      - id: p1-t2
+        title: KAMP 후보 데이터셋 3개 이상 비교표 작성
+        status: todo
+        agent: domain-researcher
+  - id: p2-ax-design
+    name: AX 도입 설계
+    status: todo
+    agents:
+      - ax-strategist
+    deliverables:
+      - docs/ax/use-cases.md
+      - docs/ax/kpi.md
+    gate: phase-end
+    tasks:
+      - id: p2-t1
+        title: 유스케이스 후보와 필요 데이터 정리
+        status: todo
+        agent: ax-strategist
+      - id: p2-t2
+        title: KPI 정의와 우선순위, 선택 근거 작성
+        status: todo
+        agent: ax-strategist
+  - id: p3-data
+    name: 데이터 전처리
+    status: todo
+    agents:
+      - data-engineer
+    deliverables:
+      - src/pipeline/*
+      - data/processed/*
+      - docs/data/data-dictionary.md
+      - docs/data/quality-report.md
+    gate: phase-end
+    tasks:
+      - id: p3-t1
+        title: 원본 점검과 전처리 파이프라인 구현
+        status: todo
+        agent: data-engineer
+      - id: p3-t2
+        title: 재현성과 행 수 변화 검증
+        status: todo
+        agent: data-engineer
+      - id: p3-t3
+        title: 데이터 사전과 품질 리포트 작성
+        status: todo
+        agent: data-engineer
+  - id: p4-analysis
+    name: 요인 분석·솔루션 제안
+    status: todo
+    agents:
+      - energy-analyst
+    deliverables:
+      - notebooks/*.ipynb
+      - docs/analysis/factors.md
+      - docs/analysis/solution-proposals.md
+    gate: phase-end
+    tasks:
+      - id: p4-t1
+        title: 에너지 소비 요인 탐색 분석
+        status: todo
+        agent: energy-analyst
+      - id: p4-t2
+        title: 요인별 효과 크기, 불확실성, 반대 증거 정리
+        status: todo
+        agent: energy-analyst
+      - id: p4-t3
+        title: 솔루션 후보 제안서 작성
+        status: todo
+        agent: energy-analyst
+  - id: p5-forecast
+    name: 예측·절감 분석
+    status: todo
+    agents:
+      - ml-modeler
+      - savings-simulator
+    deliverables:
+      - src/models/*
+      - docs/models/model-card.md
+      - results/p5-forecast/metrics.json
+      - docs/simulation/*
+    gate: phase-end
+    tasks:
+      - id: p5-t1
+        title: 베이스라인과 예측 모델 학습·평가 (시간순 분할, 누수 점검)
+        status: todo
+        agent: ml-modeler
+      - id: p5-t2
+        title: 모델 카드와 metrics.json 작성
+        status: todo
+        agent: ml-modeler
+      - id: p5-t3
+        title: 가정 표 작성과 시나리오별 절감 구간 추정
+        status: todo
+        agent: savings-simulator
+      - id: p5-t4
+        title: 민감도 분석과 시뮬레이션 문서 작성
+        status: todo
+        agent: savings-simulator
