@@ -105,8 +105,15 @@ phases:
     deliverables: [docs/data/data-dictionary.md, ...] # 완료 판단: 파일 존재 + 수정 시각
     gate: phase-end
     tasks: [{id, title, status: todo|doing|done, agent}]
+review:                       # 선택. 공통 reviewer가 읽는 프로젝트별 검토 설정
+  sources: [docs/research/**] # 선택. 근거 대조를 위해 추가로 읽을 경로(상대 경로 글롭)
+  checks:                     # 선택. 공통 기준에 더해 적용할 도메인 점검
+    - {id: leakage, text: "...", phases: [p4-analysis]}   # phases 생략 = 모든 단계
+fieldbook:
+  title: Manufacturing AX Fieldbook   # 선택. 챕터 머리말의 문서 제목, 생략하면 project.name
 ```
 
+- 공통 에이전트(`reviewer`, `fieldbook-writer`)는 범용이며, 프로젝트 고유 내용은 `review`, `fieldbook`에만 둔다. 생략하면 공통 기준만 적용한다.
 - 상태의 단일 기록자는 `pm-tracker`. 다른 에이전트는 이벤트만 남긴다.
 - 태스크는 얇게: 담당자·마감·우선순위 없음.
 
@@ -188,3 +195,5 @@ Notion·Slack 등 MCP 연동, 픽셀 오피스형 시각화, 층·루틴 같은 
 | 1.1 | 2026-10-11 | `agent_error` 이벤트의 `agent_id`를 `null` 허용으로 변경 | 실제 세션에서 시작되지 못한 호출의 실패는 `agent_id`가 없음을 확인. 계약 문서(`contract.md`)는 이미 `agent_id`로 짝지을 수 없다고 적고 있었다 |
 | 1.2 | 2026-10-11 | `phase` 파생 규칙: `doing` 우선, 없으면 `review`가 하나뿐일 때 그 단계, 그 외 `null`. 대시보드는 `null`을 같은 세션의 직전 게이트 단계로 추정 귀속(추정 표시) (12-1 A) | 라이브 세션에서 승인 후 이벤트의 `phase`가 `null`이 되어 단계별 집계에서 빠졌다 |
 | 1.3 | 2026-10-11 | hook을 옵트인으로 변경: `.workbench/project.yaml`이 있는 폴더에서만 기록기·가드 동작 | 플러그인을 켠 세션이 workbench가 아닌 폴더에서도 `.workbench/`를 만들고 `write_scope` 없는 에이전트의 쓰기를 막는 문제(재사용 시 영향) |
+| 1.4 | 2026-10-11 | `project.yaml`에 선택 항목 `review`(`sources`, `checks`)와 `fieldbook`(`title`) 추가. 공통 `reviewer`·`fieldbook-writer`를 범용으로 변경하고 프로젝트 고유 점검은 이 항목으로 이동 | 공통 에이전트에 이 프로젝트 전용 내용이 들어 있어 다른 프로젝트에 쓸 수 없었다. 플러그인 이름으로 호출되어 프로젝트 파일로 대체할 수도 없었다 |
+| 1.4 | 2026-10-11 | 이름이 빈 에이전트(Claude Code 내부 보조 에이전트)의 이벤트는 기록하지 않음 (버그 수정) | 라이브 세션에서 빈 `agent`의 `agent_stop`이 시작 없이 쌓여 계약 검증에 실패했다. 명세는 `agent`를 비어 있지 않은 문자열로 정한다 |
