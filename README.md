@@ -39,6 +39,8 @@ CLAUDE.md             Claude Code용 프로젝트 맥락
 
 플러그인은 `agent-workbench`를 내려받은 뒤 이 레포 폴더에서 `claude --plugin-dir <agent-workbench 경로>`로 세션을 열어 로드한다 (세션 한정, 설정을 바꾸지 않는다). 마켓플레이스 설치는 아직 검증하지 않았다.
 
+처음 쓰는 경우의 단계별 안내(설치부터 P1 실행, 승인, 대시보드까지)는 [agent-workbench README](https://github.com/dpcivl/agent-workbench#따라-하기-pseudolab-13th에서-쓰기)를 따라 하면 된다.
+
 ## 데이터 재현 방법
 
 KAMP 데이터는 이 레포에 포함되어 있지 않다. 직접 내려받아 사용한다.
